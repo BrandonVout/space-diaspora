@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public bool IsHurt { get; private set; }
     public bool IsDead { get; private set; }
     public int Health { get; private set; }
+    public int MaxHealth => _maxHealth;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
     public void Heal(int heal)
     {
         if (IsDead) return;
+        IsHurt = false;
         if (Health == _maxHealth) return;
 
         Health += heal;

@@ -10,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
     public FireType ActiveFire { get; private set; }
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject[] _bullets = new GameObject[32];
-    [SerializeField] private float _coolDown = 1.5f;
+    private float _coolDown;
     private float _changeDelay = 0.5f;
     private PlayerHealth _health;
     private readonly int _scatterCount = 4;
@@ -95,10 +95,12 @@ public class PlayerAttack : MonoBehaviour
 
     private void SingleFire()
     {
+        _coolDown = 0.5f;
         var velocity = GetComponent<FlightMovement2D>().GetVelocity();
 
         _bullets[_activeBullet].SetActive(true);
-        _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(velocity.normalized, transform.position);
+        _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(
+            velocity.normalized == Vector2.zero ? new Vector2(0, -1) : velocity.normalized, transform.position);
         _activeBullet++;
         if (_activeBullet >= _bullets.Length)
             _activeBullet = 0;
@@ -106,6 +108,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void CrossFire()
     {
+        _coolDown = 1.0f;
         for (var i = 0; i < _scatterCount; i++)
         {
             Vector2 pos = transform.position;
@@ -123,6 +126,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void XFire()
     {
+        _coolDown = 1.0f;
         for (var i = 1; i < _scatterCount * 2; i += 2)
         {
             Vector2 pos = transform.position;
@@ -140,6 +144,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void CircleFire()
     {
+        _coolDown = 1.5f;
         for (var i = 0; i < _scatterCount * 3; i++)
         {
             Vector2 pos = transform.position;
@@ -157,6 +162,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void RandomFire()
     {
+        _coolDown = 0.75f;
         var r = UnityEngine.Random.Range(0.1f, 5.0f);
         for (var i = 0; i < _scatterCount; i++)
         {

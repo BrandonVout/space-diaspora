@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,17 +9,31 @@ public class DamagePlayer : MonoBehaviour
     [SerializeField] private Color _hurtColor = Color.red;
     [SerializeField] private int _damage = 10;
     [SerializeField] private float _deathFade = 0.5f;
+    public EventHandler DamageDealt;
+    private bool _inert;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (!other.gameObject.CompareTag("Player")) return;
-        var player = other.gameObject;
-        
+        if (!other.gameObject.CompareTag("Player") || _inert) return;
+
+        DealDamage(other.gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.gameObject.CompareTag("Player") || _inert) return;
+
+        DealDamage(other.gameObject);
+    }
+
+    private void DealDamage(GameObject player)
+    {
         if (player.GetComponent<PlayerHealth>() == null) return;
         if (player.GetComponent<PlayerHealth>().IsHurt ||
             player.GetComponent<PlayerHealth>().IsDead) return;
 
         player.GetComponent<PlayerHealth>().Damage(_damage);
+        DamageDealt?.Invoke(this, EventArgs.Empty);
         StartCoroutine(!player.GetComponent<PlayerHealth>().IsDead ? HurtFlash(player) : DeadFlash(player));
     }
 
@@ -45,5 +60,10 @@ public class DamagePlayer : MonoBehaviour
         spriteRenderer.color = new Color(_color.r, _color.g, _color.b, _deathFade);
         yield return new WaitForSeconds(1.25f);
         spriteRenderer.color = new Color(_color.r, _color.g, _color.b, 0.0f);
+    }
+
+    public void SetInert(bool active)
+    {
+        _inert = active;
     }
 }

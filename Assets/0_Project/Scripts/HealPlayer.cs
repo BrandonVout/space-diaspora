@@ -9,6 +9,7 @@ public class HealPlayer : MonoBehaviour
     [SerializeField] private int _heal = 10;
     [SerializeField] private Color _healColor = Color.green;
     [SerializeField] private float _healTime = 0.5f;
+    [SerializeField] private bool _respawn;
     [SerializeField] private float _respawnTime = 10.0f;
     private SpriteRenderer _sprite;
     private bool _used;
@@ -27,10 +28,11 @@ public class HealPlayer : MonoBehaviour
         if (player.GetComponent<PlayerHealth>().IsDead) return;
 
         _used = true;
-        _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0);
+        _sprite.color = new Color(_color.r, _color.g, _color.b, 0);
         player.GetComponent<PlayerHealth>().Heal(_heal);
         StartCoroutine(HealFlash(player));
-        StartCoroutine(Respawn());
+        if (_respawn)
+            StartCoroutine(Respawn());
     }
 
     private IEnumerator HealFlash(GameObject player)

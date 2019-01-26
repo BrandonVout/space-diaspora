@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7004789620468154924}
   - component: {fileID: 7004789620468154925}
   - component: {fileID: 7004789620468154915}
+  - component: {fileID: 6171073790154462797}
   m_Layer: 0
   m_Name: Healer
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7004789620468154927}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -93,10 +94,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9755e0f38bbf3614f95a53bd437675b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flashSpeed: 0.2
   _heal: 10
   _healColor: {r: 0, g: 1, b: 0, a: 1}
   _healTime: 0.5
-  _flashSpeed: 0.2
+  _respawn: 0
   _respawnTime: 10
 --- !u!58 &7004789620468154915
 CircleCollider2D:
@@ -114,3 +116,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.06
+--- !u!95 &6171073790154462797
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7004789620468154927}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6572d5c452f4fd84c87d849ad1d3ce49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

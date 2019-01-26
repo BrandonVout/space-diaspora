@@ -8,6 +8,7 @@ using UnityEngine;
 public class BombBlast : MonoBehaviour
 {
     [SerializeField] private float _respawnTime = 10.0f;
+    [SerializeField] private bool _respawn;
     private DamagePlayer _damage;
     private SpriteRenderer _sprite;
     
@@ -24,7 +25,8 @@ public class BombBlast : MonoBehaviour
     {
         _damage.SetInert(true);
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0);
-        StartCoroutine(Respawn());
+        if (_respawn)
+            StartCoroutine(Respawn());
     }
 
     private IEnumerator Respawn()

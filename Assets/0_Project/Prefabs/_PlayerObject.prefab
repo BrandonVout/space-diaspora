@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2657834879384499973}
   - component: {fileID: 3250029762581834364}
   - component: {fileID: 1493857936506482065}
+  - component: {fileID: 9006903830513862971}
   - component: {fileID: 3513723198248383927}
   - component: {fileID: 2657834879384499975}
   - component: {fileID: 2657834879384499974}
@@ -66,6 +67,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 8823841202205117765}
   _force: 2.5
+--- !u!114 &9006903830513862971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657834879384499972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125165669a970974db023285f11a6a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameOver: 02_GameOver
 --- !u!114 &3513723198248383927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a50b8125a3b3ee4795e5affb6331b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 8823841202205117765}
   _bulletPrefab: {fileID: 5759513468976233397, guid: 773300d961158fa41934d3d58182b667,
     type: 3}
   _bullets:
@@ -113,7 +128,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _coolDown: 1.5
 --- !u!114 &2657834879384499975
 MonoBehaviour:
   m_ObjectHideFlags: 0

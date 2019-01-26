@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerHealth))]
 public class PlayerAttack : MonoBehaviour
 {
+    public enum FireType
+    {
+        SingleFire,
+        CrossFire,
+        XFire,
+        CircleFire,
+        RandomFire
+    }
+
+    private const float ChangeDelay = 0.2f;
+    private const int ScatterCount = 4;
     private int _activeBullet;
-    public FireType ActiveFire { get; private set; }
+    [SerializeField] private Animator _animator;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject[] _bullets = new GameObject[32];
-    private float _coolDown;
-    private float _changeDelay = 0.5f;
-    private PlayerHealth _health;
-    private readonly int _scatterCount = 4;
-    private bool _waiting;
     private bool _changing;
+    private float _coolDown;
+    private PlayerHealth _health;
+    private bool _waiting;
     public EventHandler Attack;
-    public EventHandler CooledDown;
     public EventHandler ChangedWeapon;
+    public EventHandler CooledDown;
+    public FireType ActiveFire { get; private set; }
 
     // Start is called before the first frame update
     private void Start()
@@ -41,11 +51,11 @@ public class PlayerAttack : MonoBehaviour
         if (_health.IsDead) return;
         if (_waiting) return;
 
-        if (Input.GetButton("Fire1") && !_waiting)
+        if (Input.GetButton("Fire1") && !_waiting && !_health.IsHurt)
             Fire();
 
         if (!(Mathf.Abs(Input.mouseScrollDelta.y) > 0) || _changing) return;
-        
+
         _changing = true;
         if (Input.mouseScrollDelta.y > 0)
         {
@@ -61,6 +71,7 @@ public class PlayerAttack : MonoBehaviour
             else
                 ActiveFire = FireType.SingleFire;
         }
+
         StartCoroutine(WeaponDelay());
         ChangedWeapon?.Invoke(this, EventArgs.Empty);
     }
@@ -68,6 +79,7 @@ public class PlayerAttack : MonoBehaviour
     private void Fire()
     {
         _waiting = true;
+        if (_animator != null) _animator.SetBool("attacking", true);
         switch (ActiveFire)
         {
             case FireType.SingleFire:
@@ -109,10 +121,10 @@ public class PlayerAttack : MonoBehaviour
     private void CrossFire()
     {
         _coolDown = 1.0f;
-        for (var i = 0; i < _scatterCount; i++)
+        for (var i = 0; i < ScatterCount; i++)
         {
             Vector2 pos = transform.position;
-            var angle = Mathf.PI * 2 * i / _scatterCount;
+            var angle = Mathf.PI * 2 * i / ScatterCount;
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
@@ -127,10 +139,10 @@ public class PlayerAttack : MonoBehaviour
     private void XFire()
     {
         _coolDown = 1.0f;
-        for (var i = 1; i < _scatterCount * 2; i += 2)
+        for (var i = 1; i < ScatterCount * 2; i += 2)
         {
             Vector2 pos = transform.position;
-            var angle = Mathf.PI * 2 * i  / (_scatterCount * 2);
+            var angle = Mathf.PI * 2 * i / (ScatterCount * 2);
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
@@ -145,10 +157,10 @@ public class PlayerAttack : MonoBehaviour
     private void CircleFire()
     {
         _coolDown = 1.5f;
-        for (var i = 0; i < _scatterCount * 3; i++)
+        for (var i = 0; i < ScatterCount * 3; i++)
         {
             Vector2 pos = transform.position;
-            var angle = Mathf.PI * 2 * i / (_scatterCount * 3);
+            var angle = Mathf.PI * 2 * i / (ScatterCount * 3);
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
@@ -163,11 +175,11 @@ public class PlayerAttack : MonoBehaviour
     private void RandomFire()
     {
         _coolDown = 0.75f;
-        var r = UnityEngine.Random.Range(0.1f, 5.0f);
-        for (var i = 0; i < _scatterCount; i++)
+        var r = Random.Range(0.1f, 5.0f);
+        for (var i = 0; i < ScatterCount; i++)
         {
             Vector2 pos = transform.position;
-            var angle = Mathf.PI * 2 * ((float)i / _scatterCount) * r;
+            var angle = Mathf.PI * 2 * ((float) i / ScatterCount) * r;
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
@@ -183,22 +195,14 @@ public class PlayerAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(_coolDown);
         _waiting = false;
+        if (_animator != null) _animator.SetBool("attacking", false);
         CooledDown?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator WeaponDelay()
     {
-        yield return new WaitForSeconds(_changeDelay);
+        yield return new WaitForSeconds(ChangeDelay);
         _changing = false;
         CooledDown?.Invoke(this, EventArgs.Empty);
-    }
-
-    public enum FireType
-    {
-        SingleFire,
-        CrossFire,
-        XFire,
-        CircleFire,
-        RandomFire
     }
 }

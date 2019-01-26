@@ -9,6 +9,7 @@ public class DamagePlayer : MonoBehaviour
     [SerializeField] private Color _hurtColor = Color.red;
     [SerializeField] private int _damage = 10;
     [SerializeField] private float _deathFade = 0.5f;
+    [SerializeField] private float _hurtFlash = 0.2f;
     public EventHandler DamageDealt;
     private bool _inert;
 
@@ -45,7 +46,7 @@ public class DamagePlayer : MonoBehaviour
         while (player.GetComponent<PlayerHealth>().IsHurt)
         {
             spriteRenderer.color = spriteRenderer.color == _color ? _hurtColor : _color;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(_hurtFlash);
         }
 
         spriteRenderer.color = _color;

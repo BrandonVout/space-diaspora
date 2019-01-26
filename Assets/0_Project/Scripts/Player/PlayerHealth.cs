@@ -85,7 +85,7 @@ public class PlayerHealth : MonoBehaviour
 
         while (IsHurt)
         {
-            if (timer >= _recoverTime) IsHurt = false;
+            IsHurt = timer < _recoverTime;
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }

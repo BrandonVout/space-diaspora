@@ -10,26 +10,42 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class FlightMovement2D : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody2D;
+    private Vector2 _lastPosition;
+    private Rigidbody2D _rigidbody;
+    private Vector2 _velocity;
 
     // Start is called before the first frame update
     private void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _velocity = Vector2.zero;
+        _lastPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        _velocity = (Vector2) transform.position - _lastPosition;
+        _lastPosition = transform.position;
     }
 
     public void ApplyForce(Vector2 force)
     {
-        _rigidbody2D.AddForce(force);
+        _rigidbody.AddForce(force);
     }
 
     public Vector2 GetVelocity()
     {
-        return _rigidbody2D.velocity;
+        return _velocity;
     }
 
     public void ReflectVelocity(float force)
     {
-        _rigidbody2D.velocity = new Vector2(-_rigidbody2D.velocity.x + force, -_rigidbody2D.velocity.y + force);
+        var velocity = _velocity;
+
+        _rigidbody.velocity = Vector2.zero;
+        _velocity = Vector2.zero;
+        _lastPosition = transform.position;
+        _rigidbody.AddForce(new Vector2(-velocity.normalized.x * force, -velocity.normalized.y * force),
+            ForceMode2D.Impulse);
     }
 }

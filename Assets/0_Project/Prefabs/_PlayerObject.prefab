@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 2657834879384499973}
   - component: {fileID: 3250029762581834364}
   - component: {fileID: 1493857936506482065}
+  - component: {fileID: 3513723198248383927}
   - component: {fileID: 2657834879384499975}
   - component: {fileID: 2657834879384499974}
   - component: {fileID: 6435259646704945494}
   - component: {fileID: 1850161368451201146}
   m_Layer: 0
   m_Name: _PlayerObject
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65,6 +66,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 8823841202205117765}
   _force: 2.5
+--- !u!114 &3513723198248383927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657834879384499972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a50b8125a3b3ee4795e5affb6331b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coolDown: 0.3
+  _bulletPrefab: {fileID: 5759513468976233397, guid: 773300d961158fa41934d3d58182b667,
+    type: 3}
 --- !u!114 &2657834879384499975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,7 +121,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

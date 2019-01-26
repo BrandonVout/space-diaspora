@@ -14,7 +14,7 @@ public class FlightController2D : MonoBehaviour
     private PlayerHealth _health;
     private FlightMovement2D _movement;
 
-    public float speed = 10.0f;
+    [SerializeField] private float _speed = 10.0f;
 
     // Start is called before the first frame update
     private void Start()
@@ -28,8 +28,8 @@ public class FlightController2D : MonoBehaviour
     {
         if (_health.IsDead) return;
 
-        var vertical = Input.GetAxis("Vertical") * speed;
-        var horizontal = Input.GetAxis("Horizontal") * speed;
+        var vertical = Input.GetAxis("Vertical") * _speed;
+        var horizontal = Input.GetAxis("Horizontal") * _speed;
 
         _movement.ApplyForce(new Vector2(horizontal, vertical));
     }

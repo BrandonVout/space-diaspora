@@ -43,5 +43,7 @@ public class DamagePlayer : MonoBehaviour
         
         yield return new WaitForSeconds(0.25f);
         spriteRenderer.color = new Color(_color.r, _color.g, _color.b, _deathFade);
+        yield return new WaitForSeconds(1.25f);
+        spriteRenderer.color = new Color(_color.r, _color.g, _color.b, 0.0f);
     }
 }

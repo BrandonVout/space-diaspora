@@ -64,7 +64,7 @@ public class PlayerHealth : MonoBehaviour
     public void Revive(int health = 0)
     {
         if (!IsDead) return;
-        
+
         Health = health == 0 ? _maxHealth : health;
         IsDead = false;
         Revived?.Invoke(this, EventArgs.Empty);
@@ -73,7 +73,7 @@ public class PlayerHealth : MonoBehaviour
     public void Kill()
     {
         if (IsDead) return;
-        
+
         Health = 0;
         IsDead = true;
         Dead?.Invoke(this, EventArgs.Empty);
@@ -81,15 +81,8 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator HitRecover()
     {
-        var timer = 0.0f;
-
-        while (IsHurt)
-        {
-            IsHurt = timer < _recoverTime;
-            timer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
+        yield return new WaitForSeconds(_recoverTime);
+        IsHurt = false;
         Recovered?.Invoke(this, EventArgs.Empty);
     }
 }

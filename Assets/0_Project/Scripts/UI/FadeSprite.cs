@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class FadeOut : MonoBehaviour
+public class FadeSprite : MonoBehaviour
 {
     private SpriteRenderer _sprite;
     [SerializeField] private float fadeSeconds = 1.0f;

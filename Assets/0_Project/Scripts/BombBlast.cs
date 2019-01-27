@@ -4,8 +4,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(DamagePlayer))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class BombBlast : MonoBehaviour
 {
+    private AudioSource _source;
     private DamagePlayer _damage;
     private SpriteRenderer _sprite;
     [SerializeField] private bool respawn;
@@ -14,6 +16,7 @@ public class BombBlast : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         _damage = GetComponent<DamagePlayer>();
         _sprite = GetComponent<SpriteRenderer>();
 
@@ -23,6 +26,7 @@ public class BombBlast : MonoBehaviour
     private void Explode(object sender, EventArgs args)
     {
         _damage.SetInert(true);
+        _source.Play();
         var color = _sprite.color;
         color = new Color(color.r, color.g, color.b, 0);
         _sprite.color = color;

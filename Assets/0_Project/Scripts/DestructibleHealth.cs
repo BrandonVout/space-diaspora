@@ -3,8 +3,10 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class DestructibleHealth : MonoBehaviour
 {
+    private AudioSource _source;
     private Collider2D _collider;
     private Color _color;
     private bool _destroyed;
@@ -24,6 +26,7 @@ public class DestructibleHealth : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         _collider = GetComponent<Collider2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _color = _sprite.color;
@@ -45,6 +48,7 @@ public class DestructibleHealth : MonoBehaviour
     private void Destroy()
     {
         _destroyed = true;
+        _source.Play();
         _collider.isTrigger = true;
         _sprite.color = new Color(_color.r, _color.g, _color.b, 0);
         destroyed?.Invoke(this, EventArgs.Empty);

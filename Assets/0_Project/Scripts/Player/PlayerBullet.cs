@@ -9,7 +9,7 @@ public class PlayerBullet : MonoBehaviour
     private CircleCollider2D _collider;
     [SerializeField] private float lifespan = 3.0f;
     private BulletMovement2D _movement;
-    [SerializeField] private float speed = 200;
+    [SerializeField] private float speed = 300;
     public EventHandler inert;
     [field: SerializeField] public int Damage { get; } = 10;
 

@@ -2,8 +2,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class HealPlayer : MonoBehaviour
 {
+    private AudioSource _source;
     private Color _color;
     private SpriteRenderer _sprite;
     private bool _used;
@@ -16,6 +18,7 @@ public class HealPlayer : MonoBehaviour
 
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         _sprite = GetComponent<SpriteRenderer>();
     }
 
@@ -28,6 +31,7 @@ public class HealPlayer : MonoBehaviour
         if (player.GetComponent<PlayerHealth>().IsDead) return;
 
         _used = true;
+        _source.Play();
         _sprite.color = new Color(_color.r, _color.g, _color.b, 0);
         player.GetComponent<PlayerHealth>().Heal(heal);
         StartCoroutine(HealFlash(player));

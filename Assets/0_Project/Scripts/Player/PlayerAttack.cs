@@ -4,6 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerHealth))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerAttack : MonoBehaviour
 {
     public enum FireType
@@ -15,6 +16,8 @@ public class PlayerAttack : MonoBehaviour
         RandomFire
     }
 
+    private AudioSource _source;
+    [SerializeField] private AudioClip fireClip;
     private const float ChangeDelay = 0.2f;
     private const int ScatterCount = 4;
     private int _activeBullet;
@@ -25,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Animator animator;
     public EventHandler attack;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private GameObject[] bullets = new GameObject[32];
+    [SerializeField] private GameObject[] bullets = new GameObject[32]; // Number of pre-made bullets
     public EventHandler changedWeapon;
     public EventHandler cooledDown;
     private static readonly int Attacking = Animator.StringToHash("attacking");
@@ -35,6 +38,7 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         ActiveFire = FireType.SingleFire;
+        _source = GetComponent<AudioSource>();
         _health = GetComponent<PlayerHealth>();
         _activeBullet = 0;
         for (var i = 0; i < bullets.Length; i++)
@@ -55,10 +59,11 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetButton("Fire1") && !_waiting && !_health.IsHurt)
             Fire();
 
-        if (!(Mathf.Abs(Input.mouseScrollDelta.y) > 0) || _changing) return;
+        var wheel = Input.mouseScrollDelta.y;
+        if (!(Mathf.Abs(wheel) > 0) || _changing) return;
 
         _changing = true;
-        if (Input.mouseScrollDelta.y > 0)
+        if (wheel > 0)
         {
             if (ActiveFire > 0)
                 ActiveFire--;
@@ -80,6 +85,8 @@ public class PlayerAttack : MonoBehaviour
     private void Fire()
     {
         _waiting = true;
+        _source.clip = fireClip;
+        _source.Play();
         if (animator != null) animator.SetBool(Attacking, true);
         switch (ActiveFire)
         {
@@ -130,7 +137,7 @@ public class PlayerAttack : MonoBehaviour
             pos.x = Mathf.Cos(angle);
 
             bullets[_activeBullet].SetActive(true);
-            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
             _activeBullet++;
             if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
@@ -148,7 +155,7 @@ public class PlayerAttack : MonoBehaviour
             pos.x = Mathf.Cos(angle);
 
             bullets[_activeBullet].SetActive(true);
-            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
             _activeBullet++;
             if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
@@ -166,7 +173,7 @@ public class PlayerAttack : MonoBehaviour
             pos.x = Mathf.Cos(angle);
 
             bullets[_activeBullet].SetActive(true);
-            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
             _activeBullet++;
             if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
@@ -185,7 +192,7 @@ public class PlayerAttack : MonoBehaviour
             pos.x = Mathf.Cos(angle);
 
             bullets[_activeBullet].SetActive(true);
-            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
             _activeBullet++;
             if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;

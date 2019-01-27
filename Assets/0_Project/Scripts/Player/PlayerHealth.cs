@@ -2,10 +2,17 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerHealth : MonoBehaviour
 {
+    private AudioSource _source;
+    [SerializeField] private AudioClip healClip;
+    [SerializeField] private AudioClip hurtClip;
+    [SerializeField] private AudioClip deadClip;
+    
     public EventHandler damaged;
     public EventHandler dead;
+    public EventHandler gameOver;
     public EventHandler healed;
     public EventHandler recovered;
     [SerializeField] private float recoverTime = 1.0f;
@@ -13,12 +20,16 @@ public class PlayerHealth : MonoBehaviour
     public bool IsHurt { get; private set; }
     public bool IsDead { get; private set; }
     public int Health { get; private set; }
-
     [field: SerializeField] public int MaxHealth { get; } = 100;
 
     private void Awake()
     {
         Health = MaxHealth;
+    }
+
+    private void Start()
+    {
+        _source = GetComponent<AudioSource>();
     }
 
     public void Heal(int heal)
@@ -30,6 +41,8 @@ public class PlayerHealth : MonoBehaviour
         Health += heal;
         if (Health > MaxHealth)
             Health = MaxHealth;
+        _source.clip = healClip;
+        _source.Play();
         healed?.Invoke(this, EventArgs.Empty);
     }
 
@@ -44,11 +57,16 @@ public class PlayerHealth : MonoBehaviour
         if (Health == 0)
         {
             IsDead = true;
+            _source.clip = deadClip;
+            _source.Play();
             dead?.Invoke(this, EventArgs.Empty);
+            StartCoroutine(DeathWait());
         }
         else
         {
             IsHurt = true;
+            _source.clip = hurtClip;
+            _source.Play();
             damaged?.Invoke(this, EventArgs.Empty);
             StartCoroutine(HitRecover());
         }
@@ -86,5 +104,11 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(recoverTime);
         IsHurt = false;
         recovered?.Invoke(this, EventArgs.Empty);
+    }
+
+    private IEnumerator DeathWait()
+    {
+        yield return new WaitForSeconds(2.0f);
+        gameOver?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -592,7 +592,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Your homeworld is consumed by the weeds.
+  m_Text: 'Made for
+
+    Global Game Jam 2019'
 --- !u!222 &1831398184
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -636,7 +638,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1600, y: 1200}
+  m_SizeDelta: {x: 1500, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1893395510
 MonoBehaviour:
@@ -671,7 +673,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: The effort to retake Mars has failed.
+  m_Text: 'Art and Programming by
+
+    Brandon Vout'
 --- !u!222 &1893395511
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -750,7 +754,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Your family is never seen again.
+  m_Text: 'Music and Sound Provided by
+
+    Soundsnap'
 --- !u!222 &1934806502
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -824,7 +830,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 600}
+  m_SizeDelta: {x: 1600, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1994297292
 MonoBehaviour:
@@ -859,9 +865,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'GAME
+  m_Text: 'THANK YOU
 
-    OVER'
+    FOR PLAYING'
 --- !u!222 &1994297293
 CanvasRenderer:
   m_ObjectHideFlags: 0

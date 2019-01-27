@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8dc72b470252e545a245d025a01aaae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOver: 01_MainMenu
+  gameOver: 05_Level_1
 --- !u!114 &688607354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,6 +1176,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Long ago, Mars thrived.
+
 
     Today, it lays dying.'
 --- !u!222 &1496083983

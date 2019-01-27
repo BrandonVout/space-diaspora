@@ -4,8 +4,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(BulletMovement2D))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerBullet : MonoBehaviour
 {
+    [SerializeField] private AudioSource source;
     private CircleCollider2D _collider;
     [SerializeField] private float lifespan = 3.0f;
     private BulletMovement2D _movement;
@@ -32,6 +34,7 @@ public class PlayerBullet : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("Projectile") || other.isTrigger) return;
 
+        source.Play();
         DestroyBullet();
     }
 

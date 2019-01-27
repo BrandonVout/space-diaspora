@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
-    private Color _color;
     private bool _inert;
     [SerializeField] private int damage = 10;
     public EventHandler damageDealt;
     [SerializeField] private float deathFade = 0.5f;
     [SerializeField] private Color hurtColor = Color.red;
+    [SerializeField] private Color deathColor = Color.white;
     [SerializeField] private float hurtFlash = 0.2f;
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -40,29 +40,25 @@ public class DamagePlayer : MonoBehaviour
     private IEnumerator HurtFlash(GameObject player)
     {
         var spriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
-        _color = spriteRenderer.color;
+        var color = spriteRenderer.color;   // Preserve color from before hurt
 
         while (player.GetComponent<PlayerHealth>().IsHurt)
         {
-            spriteRenderer.color = spriteRenderer.color == _color ? hurtColor : _color;
+            spriteRenderer.color = spriteRenderer.color == color ? hurtColor : color;
             yield return new WaitForSeconds(hurtFlash);
         }
 
-        spriteRenderer.color = _color;
+        spriteRenderer.color = color;
     }
 
     private IEnumerator DeadFlash(GameObject player)
     {
         var spriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
-        var color = spriteRenderer.color;
-        _color = color;
 
         yield return new WaitForSeconds(0.25f);
-        color = new Color(_color.r, _color.g, _color.b, deathFade);
-        spriteRenderer.color = color;
+        spriteRenderer.color = new Color(deathColor.r, deathColor.g, deathColor.b, deathFade);
         yield return new WaitForSeconds(1.25f);
-        color = new Color(_color.r, _color.g, _color.b, 0.0f);
-        spriteRenderer.color = color;
+        spriteRenderer.color = new Color(deathColor.r, deathColor.g, deathColor.b, 0.0f);
     }
 
     public void SetInert(bool active)

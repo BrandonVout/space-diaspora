@@ -7,12 +7,11 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     private CircleCollider2D _collider;
-    [SerializeField] private int _damage = 10;
-    [SerializeField] private float _lifespan = 3.0f;
+    [SerializeField] private float lifespan = 3.0f;
     private BulletMovement2D _movement;
-    [SerializeField] private float _speed = 200;
-    public EventHandler Inert;
-    public int Damage => _damage;
+    [SerializeField] private float speed = 200;
+    public EventHandler inert;
+    [field: SerializeField] public int Damage { get; } = 10;
 
     public void Initialize()
     {
@@ -25,7 +24,7 @@ public class PlayerBullet : MonoBehaviour
     {
         _movement.Stop();
         transform.position = pos;
-        _movement.ApplyForce(dir * _speed);
+        _movement.ApplyForce(dir * speed);
         StartCoroutine(Lifespan());
     }
 
@@ -33,20 +32,18 @@ public class PlayerBullet : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("Projectile") || other.isTrigger) return;
 
-//        var playerHealth = GetComponent<PlayerHealth>();
-//        playerHealth.Damage(_damage);
         DestroyBullet();
     }
 
     private IEnumerator Lifespan()
     {
-        yield return new WaitForSeconds(_lifespan);
+        yield return new WaitForSeconds(lifespan);
         DestroyBullet();
     }
 
     public void DestroyBullet()
     {
-        Inert?.Invoke(this, EventArgs.Empty);
+        inert?.Invoke(this, EventArgs.Empty);
         _movement.Stop();
         gameObject.SetActive(false);
     }

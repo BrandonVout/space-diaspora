@@ -5,14 +5,14 @@ using UnityEngine;
 public class HealPlayer : MonoBehaviour
 {
     private Color _color;
-    [SerializeField] private float _flashSpeed = 0.2f;
-    [SerializeField] private int _heal = 10;
-    [SerializeField] private Color _healColor = Color.green;
-    [SerializeField] private float _healTime = 0.5f;
-    [SerializeField] private bool _respawn;
-    [SerializeField] private float _respawnTime = 10.0f;
     private SpriteRenderer _sprite;
     private bool _used;
+    [SerializeField] private float flashSpeed = 0.2f;
+    [SerializeField] private int heal = 10;
+    [SerializeField] private Color healColor = Color.green;
+    [SerializeField] private float healTime = 0.5f;
+    [SerializeField] private bool respawn;
+    [SerializeField] private float respawnTime = 10.0f;
 
     private void Start()
     {
@@ -29,9 +29,9 @@ public class HealPlayer : MonoBehaviour
 
         _used = true;
         _sprite.color = new Color(_color.r, _color.g, _color.b, 0);
-        player.GetComponent<PlayerHealth>().Heal(_heal);
+        player.GetComponent<PlayerHealth>().Heal(heal);
         StartCoroutine(HealFlash(player));
-        if (_respawn)
+        if (respawn)
             StartCoroutine(Respawn());
     }
 
@@ -44,11 +44,11 @@ public class HealPlayer : MonoBehaviour
             yield return null;
         _color = spriteRenderer.color;
 
-        while (timer < _healTime)
+        while (timer < healTime)
         {
-            spriteRenderer.color = spriteRenderer.color == _color ? _healColor : _color;
-            timer += _flashSpeed;
-            yield return new WaitForSeconds(_flashSpeed);
+            spriteRenderer.color = spriteRenderer.color == _color ? healColor : _color;
+            timer += flashSpeed;
+            yield return new WaitForSeconds(flashSpeed);
         }
 
         spriteRenderer.color = _color;
@@ -56,8 +56,10 @@ public class HealPlayer : MonoBehaviour
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(_respawnTime);
+        yield return new WaitForSeconds(respawnTime);
         _used = false;
-        _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1);
+        var color = _sprite.color;
+        color = new Color(color.r, color.g, color.b, 1);
+        _sprite.color = color;
     }
 }

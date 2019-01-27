@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerHealth))]
 public class GameOver : MonoBehaviour
 {
-    [SerializeField] private string _gameOver;
+    [SerializeField] private string gameOver;
 
     private void Start()
     {
-        GetComponent<PlayerHealth>().Dead += Dead;
+        GetComponent<PlayerHealth>().dead += Dead;
     }
 
     private void Dead(object sender, EventArgs args)
     {
-        if(_gameOver == string.Empty) return;
-        SceneManager.LoadScene(_gameOver);
+        if (gameOver == string.Empty) return;
+        SceneManager.LoadScene(gameOver);
     }
 }

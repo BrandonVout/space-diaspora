@@ -19,7 +19,7 @@ public class WeaponUI : MonoBehaviour
         _color = _weaponUI[(int)_activeWeapon].GetComponent<Image>().color;
         _weaponUI[(int)_activeWeapon].GetComponent<Image>().color = _selectColor;
 
-        _player.ChangedWeapon += Select;
+        _player.changedWeapon += Select;
     }
     
     private void Select(object sender, EventArgs args)

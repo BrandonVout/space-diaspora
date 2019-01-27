@@ -13,7 +13,7 @@ public class FlightMovement2D : MonoBehaviour
     private Vector2 _lastPosition;
     private Rigidbody2D _rigidbody;
     private Vector2 _velocity;
-    [SerializeField] private float _maxVelocity = 10.0f;
+    [SerializeField] private float maxVelocity = 10.0f;
 
     // Start is called before the first frame update
     private void Start()
@@ -25,14 +25,15 @@ public class FlightMovement2D : MonoBehaviour
 
     private void Update()
     {
-        _velocity = (Vector2) transform.position - _lastPosition;
-        _lastPosition = transform.position;
+        var position = transform.position;
+        _velocity = (Vector2) position - _lastPosition;
+        _lastPosition = position;
     }
 
     public void ApplyForce(Vector2 force)
     {
         _rigidbody.AddForce(force);
-        _rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, _maxVelocity);
+        _rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, maxVelocity);
     }
 
     public Vector2 GetVelocity()

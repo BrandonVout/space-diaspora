@@ -261,10 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f98fc103143144a9ae99b8c2727cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageColor: {r: 1, g: 0, b: 0, a: 1}
-  _flashSpeed: 0.1
-  _hurtTime: 0.6
-  _maxHealth: 30
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  flashSpeed: 0.1
+  hurtTime: 0.6
 --- !u!4 &319747829 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7004789620468154926, guid: eabb68401fdc01446be8af8c2140de61,
@@ -282,6 +281,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -297,6 +297,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967dc172ad0c45e43b4ac7f49c13d8b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -552,10 +565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4b04cfdd87069489d0f31bfa21d10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hurtColor: {r: 1, g: 0, b: 0, a: 1}
-  _damage: 10
-  _deathFade: 0.5
-  _hurtFlash: 0.15
+  damage: 10
+  deathFade: 0.5
+  hurtColor: {r: 1, g: 0, b: 0, a: 1}
+  hurtFlash: 0.2
 --- !u!1 &853807365
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,10 +945,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4b04cfdd87069489d0f31bfa21d10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hurtColor: {r: 1, g: 0, b: 0, a: 1}
-  _damage: 100000000
-  _deathFade: 0.5
-  _hurtFlash: 0.2
+  damage: 10
+  deathFade: 0.5
+  hurtColor: {r: 1, g: 0, b: 0, a: 1}
+  hurtFlash: 0.2
 --- !u!61 &1865325581
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1270,12 +1283,12 @@ PrefabInstance:
     - target: {fileID: 2657834879384499973, guid: a9c5238dbe9b93c49a9a713e6b655573,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2657834879384499973, guid: a9c5238dbe9b93c49a9a713e6b655573,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9c5238dbe9b93c49a9a713e6b655573, type: 3}
@@ -1404,6 +1417,11 @@ PrefabInstance:
     - target: {fileID: 4464123710363287271, guid: 1fda963f960d7eb4eae3a4a953c3d494,
         type: 3}
       propertyPath: _player
+      value: 
+      objectReference: {fileID: 1649688654}
+    - target: {fileID: 4464123710363287271, guid: 1fda963f960d7eb4eae3a4a953c3d494,
+        type: 3}
+      propertyPath: player
       value: 
       objectReference: {fileID: 1649688654}
     - target: {fileID: 4464123709068361986, guid: 1fda963f960d7eb4eae3a4a953c3d494,

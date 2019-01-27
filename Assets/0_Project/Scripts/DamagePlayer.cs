@@ -1,17 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
     private Color _color;
-    [SerializeField] private Color _hurtColor = Color.red;
-    [SerializeField] private int _damage = 10;
-    [SerializeField] private float _deathFade = 0.5f;
-    [SerializeField] private float _hurtFlash = 0.2f;
-    public EventHandler DamageDealt;
     private bool _inert;
+    [SerializeField] private int damage = 10;
+    public EventHandler damageDealt;
+    [SerializeField] private float deathFade = 0.5f;
+    [SerializeField] private Color hurtColor = Color.red;
+    [SerializeField] private float hurtFlash = 0.2f;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -33,8 +32,8 @@ public class DamagePlayer : MonoBehaviour
         if (player.GetComponent<PlayerHealth>().IsHurt ||
             player.GetComponent<PlayerHealth>().IsDead) return;
 
-        player.GetComponent<PlayerHealth>().Damage(_damage);
-        DamageDealt?.Invoke(this, EventArgs.Empty);
+        player.GetComponent<PlayerHealth>().Damage(damage);
+        damageDealt?.Invoke(this, EventArgs.Empty);
         StartCoroutine(!player.GetComponent<PlayerHealth>().IsDead ? HurtFlash(player) : DeadFlash(player));
     }
 
@@ -45,8 +44,8 @@ public class DamagePlayer : MonoBehaviour
 
         while (player.GetComponent<PlayerHealth>().IsHurt)
         {
-            spriteRenderer.color = spriteRenderer.color == _color ? _hurtColor : _color;
-            yield return new WaitForSeconds(_hurtFlash);
+            spriteRenderer.color = spriteRenderer.color == _color ? hurtColor : _color;
+            yield return new WaitForSeconds(hurtFlash);
         }
 
         spriteRenderer.color = _color;
@@ -55,12 +54,14 @@ public class DamagePlayer : MonoBehaviour
     private IEnumerator DeadFlash(GameObject player)
     {
         var spriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
-        _color = spriteRenderer.color;
-        
+        var color = spriteRenderer.color;
+        _color = color;
+
         yield return new WaitForSeconds(0.25f);
-        spriteRenderer.color = new Color(_color.r, _color.g, _color.b, _deathFade);
+        color = new Color(_color.r, _color.g, _color.b, deathFade);
         yield return new WaitForSeconds(1.25f);
-        spriteRenderer.color = new Color(_color.r, _color.g, _color.b, 0.0f);
+        color = new Color(_color.r, _color.g, _color.b, 0.0f);
+        spriteRenderer.color = color;
     }
 
     public void SetInert(bool active)

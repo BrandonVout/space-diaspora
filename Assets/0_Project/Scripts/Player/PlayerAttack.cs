@@ -18,16 +18,17 @@ public class PlayerAttack : MonoBehaviour
     private const float ChangeDelay = 0.2f;
     private const int ScatterCount = 4;
     private int _activeBullet;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private GameObject[] _bullets = new GameObject[32];
     private bool _changing;
     private float _coolDown;
     private PlayerHealth _health;
     private bool _waiting;
-    public EventHandler Attack;
-    public EventHandler ChangedWeapon;
-    public EventHandler CooledDown;
+    [SerializeField] private Animator animator;
+    public EventHandler attack;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject[] bullets = new GameObject[32];
+    public EventHandler changedWeapon;
+    public EventHandler cooledDown;
+    private static readonly int Attacking = Animator.StringToHash("attacking");
     public FireType ActiveFire { get; private set; }
 
     // Start is called before the first frame update
@@ -36,12 +37,12 @@ public class PlayerAttack : MonoBehaviour
         ActiveFire = FireType.SingleFire;
         _health = GetComponent<PlayerHealth>();
         _activeBullet = 0;
-        for (var i = 0; i < _bullets.Length; i++)
+        for (var i = 0; i < bullets.Length; i++)
         {
-            _bullets[i] = Instantiate(_bulletPrefab, new Vector2(0, 0), Quaternion.identity);
-            _bullets[i].transform.parent = null;
-            _bullets[i].GetComponent<PlayerBullet>().Initialize();
-            _bullets[i].SetActive(false);
+            bullets[i] = Instantiate(bulletPrefab, new Vector2(0, 0), Quaternion.identity);
+            bullets[i].transform.parent = null;
+            bullets[i].GetComponent<PlayerBullet>().Initialize();
+            bullets[i].SetActive(false);
         }
     }
 
@@ -73,13 +74,13 @@ public class PlayerAttack : MonoBehaviour
         }
 
         StartCoroutine(WeaponDelay());
-        ChangedWeapon?.Invoke(this, EventArgs.Empty);
+        changedWeapon?.Invoke(this, EventArgs.Empty);
     }
 
     private void Fire()
     {
         _waiting = true;
-        if (_animator != null) _animator.SetBool("attacking", true);
+        if (animator != null) animator.SetBool(Attacking, true);
         switch (ActiveFire)
         {
             case FireType.SingleFire:
@@ -102,7 +103,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         StartCoroutine(CoolDown());
-        Attack?.Invoke(this, EventArgs.Empty);
+        attack?.Invoke(this, EventArgs.Empty);
     }
 
     private void SingleFire()
@@ -110,11 +111,11 @@ public class PlayerAttack : MonoBehaviour
         _coolDown = 0.5f;
         var velocity = GetComponent<FlightMovement2D>().GetVelocity();
 
-        _bullets[_activeBullet].SetActive(true);
-        _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(
+        bullets[_activeBullet].SetActive(true);
+        bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(
             velocity.normalized == Vector2.zero ? new Vector2(0, -1) : velocity.normalized, transform.position);
         _activeBullet++;
-        if (_activeBullet >= _bullets.Length)
+        if (_activeBullet >= bullets.Length)
             _activeBullet = 0;
     }
 
@@ -128,10 +129,10 @@ public class PlayerAttack : MonoBehaviour
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
-            _bullets[_activeBullet].SetActive(true);
-            _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
+            bullets[_activeBullet].SetActive(true);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
             _activeBullet++;
-            if (_activeBullet >= _bullets.Length)
+            if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
         }
     }
@@ -146,10 +147,10 @@ public class PlayerAttack : MonoBehaviour
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
-            _bullets[_activeBullet].SetActive(true);
-            _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
+            bullets[_activeBullet].SetActive(true);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
             _activeBullet++;
-            if (_activeBullet >= _bullets.Length)
+            if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
         }
     }
@@ -164,10 +165,10 @@ public class PlayerAttack : MonoBehaviour
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
-            _bullets[_activeBullet].SetActive(true);
-            _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
+            bullets[_activeBullet].SetActive(true);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
             _activeBullet++;
-            if (_activeBullet >= _bullets.Length)
+            if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
         }
     }
@@ -183,10 +184,10 @@ public class PlayerAttack : MonoBehaviour
             pos.y = Mathf.Sin(angle);
             pos.x = Mathf.Cos(angle);
 
-            _bullets[_activeBullet].SetActive(true);
-            _bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, transform.position);
+            bullets[_activeBullet].SetActive(true);
+            bullets[_activeBullet].GetComponent<PlayerBullet>().Fire(pos.normalized, pos);
             _activeBullet++;
-            if (_activeBullet >= _bullets.Length)
+            if (_activeBullet >= bullets.Length)
                 _activeBullet = 0;
         }
     }
@@ -195,14 +196,14 @@ public class PlayerAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(_coolDown);
         _waiting = false;
-        if (_animator != null) _animator.SetBool("attacking", false);
-        CooledDown?.Invoke(this, EventArgs.Empty);
+        if (animator != null) animator.SetBool(Attacking, false);
+        cooledDown?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator WeaponDelay()
     {
         yield return new WaitForSeconds(ChangeDelay);
         _changing = false;
-        CooledDown?.Invoke(this, EventArgs.Empty);
+        cooledDown?.Invoke(this, EventArgs.Empty);
     }
 }

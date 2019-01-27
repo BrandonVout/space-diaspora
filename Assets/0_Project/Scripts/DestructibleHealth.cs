@@ -7,17 +7,18 @@ public class DestructibleHealth : MonoBehaviour
 {
     private Collider2D _collider;
     private Color _color;
-    [SerializeField] private Color _damageColor = Color.red;
     private bool _destroyed;
-    [SerializeField] private float _flashSpeed = 0.1f;
-    [SerializeField] private float _hurtTime = 0.6f;
     private bool _isHurt;
-    [SerializeField] private int _maxHealth = 30;
     private SpriteRenderer _sprite;
-    public EventHandler Damaged;
-    public EventHandler Destroyed;
-    public EventHandler Spawned;
-    public int MaxHealth => _maxHealth;
+    [SerializeField] private Color damageColor = Color.red;
+    public EventHandler damaged;
+    public EventHandler destroyed;
+    [SerializeField] private float flashSpeed = 0.1f;
+    [SerializeField] private float hurtTime = 0.6f;
+    public EventHandler spawned;
+
+    [field: SerializeField] public int MaxHealth { get; } = 30;
+
     public int Health { get; private set; }
 
     // Start is called before the first frame update
@@ -31,12 +32,14 @@ public class DestructibleHealth : MonoBehaviour
 
     public void Initialize()
     {
-        Health = _maxHealth;
+        Health = MaxHealth;
         _isHurt = false;
         _destroyed = false;
         _collider.isTrigger = false;
-        _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1);
-        Spawned?.Invoke(this, EventArgs.Empty);
+        var color = _sprite.color;
+        color = new Color(color.r, color.g, color.b, 1);
+        _sprite.color = color;
+        spawned?.Invoke(this, EventArgs.Empty);
     }
 
     private void Destroy()
@@ -44,7 +47,7 @@ public class DestructibleHealth : MonoBehaviour
         _destroyed = true;
         _collider.isTrigger = true;
         _sprite.color = new Color(_color.r, _color.g, _color.b, 0);
-        Destroyed?.Invoke(this, EventArgs.Empty);
+        destroyed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Damage(int damage)
@@ -59,18 +62,18 @@ public class DestructibleHealth : MonoBehaviour
         if (_destroyed) return;
         _isHurt = true;
         StartCoroutine(HurtFlash());
-        Damaged?.Invoke(this, EventArgs.Empty);
+        damaged?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator HurtFlash()
     {
         var timer = 0.0f;
 
-        while (timer < _hurtTime)
+        while (timer < hurtTime)
         {
-            _sprite.color = _sprite.color == _color ? _damageColor : _color;
-            timer += _flashSpeed;
-            yield return new WaitForSeconds(_flashSpeed);
+            _sprite.color = _sprite.color == _color ? damageColor : _color;
+            timer += flashSpeed;
+            yield return new WaitForSeconds(flashSpeed);
         }
 
         _sprite.color = _color;

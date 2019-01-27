@@ -5,7 +5,6 @@ Brandon Vout
     - To be used by player and enemy controllers to move rigidbodies
 ---------------------------------------*/
 
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -25,8 +24,9 @@ public class BulletMovement2D : MonoBehaviour
 
     private void Update()
     {
-        _velocity = (Vector2) transform.position - _lastPosition;
-        _lastPosition = transform.position;
+        var position = transform.position;
+        _velocity = (Vector2) position - _lastPosition;
+        _lastPosition = position;
     }
 
     public void ApplyForce(Vector2 force)

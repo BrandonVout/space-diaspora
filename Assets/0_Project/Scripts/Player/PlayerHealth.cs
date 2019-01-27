@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private int _maxHealth = 100;
-    [SerializeField] private float _recoverTime = 1.0f;
-    public EventHandler Damaged;
-    public EventHandler Dead;
-    public EventHandler Healed;
-    public EventHandler Recovered;
-    public EventHandler Revived;
+    public EventHandler damaged;
+    public EventHandler dead;
+    public EventHandler healed;
+    public EventHandler recovered;
+    [SerializeField] private float recoverTime = 1.0f;
+    public EventHandler revived;
     public bool IsHurt { get; private set; }
     public bool IsDead { get; private set; }
     public int Health { get; private set; }
-    public int MaxHealth => _maxHealth;
+
+    [field: SerializeField] public int MaxHealth { get; } = 100;
 
     private void Awake()
     {
-        Health = _maxHealth;
+        Health = MaxHealth;
     }
 
     public void Heal(int heal)
     {
         if (IsDead) return;
         IsHurt = false;
-        if (Health == _maxHealth) return;
+        if (Health == MaxHealth) return;
 
         Health += heal;
-        if (Health > _maxHealth)
-            Health = _maxHealth;
-        Healed?.Invoke(this, EventArgs.Empty);
+        if (Health > MaxHealth)
+            Health = MaxHealth;
+        healed?.Invoke(this, EventArgs.Empty);
     }
 
     public void Damage(int damage)
@@ -44,12 +44,12 @@ public class PlayerHealth : MonoBehaviour
         if (Health == 0)
         {
             IsDead = true;
-            Dead?.Invoke(this, EventArgs.Empty);
+            dead?.Invoke(this, EventArgs.Empty);
         }
         else
         {
             IsHurt = true;
-            Damaged?.Invoke(this, EventArgs.Empty);
+            damaged?.Invoke(this, EventArgs.Empty);
             StartCoroutine(HitRecover());
         }
     }
@@ -57,8 +57,8 @@ public class PlayerHealth : MonoBehaviour
     public void SetHealth(int health)
     {
         Health = health;
-        if (Health > _maxHealth)
-            Health = _maxHealth;
+        if (Health > MaxHealth)
+            Health = MaxHealth;
         else if (Health < 0)
             Health = 0;
     }
@@ -67,9 +67,9 @@ public class PlayerHealth : MonoBehaviour
     {
         if (!IsDead) return;
 
-        Health = health == 0 ? _maxHealth : health;
+        Health = health == 0 ? MaxHealth : health;
         IsDead = false;
-        Revived?.Invoke(this, EventArgs.Empty);
+        revived?.Invoke(this, EventArgs.Empty);
     }
 
     public void Kill()
@@ -78,13 +78,13 @@ public class PlayerHealth : MonoBehaviour
 
         Health = 0;
         IsDead = true;
-        Dead?.Invoke(this, EventArgs.Empty);
+        dead?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator HitRecover()
     {
-        yield return new WaitForSeconds(_recoverTime);
+        yield return new WaitForSeconds(recoverTime);
         IsHurt = false;
-        Recovered?.Invoke(this, EventArgs.Empty);
+        recovered?.Invoke(this, EventArgs.Empty);
     }
 }

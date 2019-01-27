@@ -34,7 +34,7 @@ public class PlayerBullet : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("Projectile") || other.isTrigger) return;
 
-        source.Play();
+        //source.Play();
         DestroyBullet();
     }
 

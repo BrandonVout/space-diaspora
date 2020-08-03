@@ -28,9 +28,14 @@ What home means to the Martian is a memory of a once great people letting out it
 - Scatter Shot - Fires four shots in random directions, Short cooldown
 
 ## Credits
-Art and Programming by Brandon Vout
-Music and Sound Provided by Soundsnap
-Made in Unity
+### Art and Programming
+[Brandon Vout](https://brandonvout.com/)
+
+### Music and Sound Provided by
+[Soundsnap](https://www.soundsnap.com/)
+
+### Made in
+[Unity](https://unity.com/)
 
 ## Repositories
 - [Github](https://github.com/BrandonVout/sorcererking)

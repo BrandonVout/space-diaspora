@@ -30,6 +30,11 @@ What home means to the Martian is a memory of a once great people letting out it
 ## Credits
 Art and Programming by Brandon Vout
 Music and Sound Provided by Soundsnap
+Made in Unity
+
+## Repositories
+- [Github](https://github.com/BrandonVout/sorcererking)
+- [Gitlab](https://gitlab.com/BrandonVout/sorcererking)
 
 ## License
 Published under the **[GNU General Public License v3.0](./LICENSE)**

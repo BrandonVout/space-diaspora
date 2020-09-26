@@ -38,8 +38,8 @@ What home means to the Martian is a memory of a once great people letting out it
 [Unity](https://unity.com/)
 
 ## Repositories
-- [Github](https://github.com/BrandonVout/sorcererking)
-- [Gitlab](https://gitlab.com/BrandonVout/sorcererking)
+- [Github](https://github.com/bvout/sorcererking)
+- [Gitlab](https://gitlab.com/bvout/sorcererking)
 
 ## License
 Published under the **[GNU General Public License v3.0](./LICENSE)**

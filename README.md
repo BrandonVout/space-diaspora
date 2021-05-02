@@ -1,4 +1,5 @@
 # Overview
+![Game start](./Screenshots/sd-start.png "Game start")
 ## Description:
 Unofficial Space Invaders Sequel.
 
@@ -13,6 +14,7 @@ What home means to the Martian is a memory of a once great people letting out it
 6-bit inspired graphics. Break the cyan objects and avoid the magenta objects.
 
 (Made for the Global Game Jam 2019.)
+![Attacking in all directions](./Screenshots/sd-attack.png "Attacking")
 
 ## How to Play
 **Controls:**
@@ -28,6 +30,8 @@ What home means to the Martian is a memory of a once great people letting out it
 - Scatter Shot - Fires four shots in random directions, Short cooldown
 
 ## Credits
+![Title screen](./Screenshots/sd-title.png "Title screen")
+
 ### Art and Programming
 [Brandon Vout](https://brandonvout.com/)
 
@@ -38,8 +42,8 @@ What home means to the Martian is a memory of a once great people letting out it
 [Unity](https://unity.com/)
 
 ## Repositories
-- [Github](https://github.com/bvout/BTV_GlobalGameJam2019)
-- [Gitlab](https://gitlab.com/bvout/BTV_GlobalGameJam2019)
+- [Github](https://github.com/bvout/space-diaspora)
+- [Gitlab](https://gitlab.com/bvout/space-diaspora)
 
 ## License
 Published under the **[GNU General Public License v3.0](./LICENSE)**

@@ -42,8 +42,8 @@ What home means to the Martian is a memory of a once great people letting out it
 [Unity](https://unity.com/)
 
 ## Repositories
-- [Github](https://github.com/bvout/space-diaspora)
-- [Gitlab](https://gitlab.com/bvout/space-diaspora)
+- [Github](https://github.com/brandonvout/space-diaspora)
+- [Gitlab](https://gitlab.com/brandonvout/space-diaspora)
 
 ## License
 Published under the **[GNU General Public License v3.0](./LICENSE)**
